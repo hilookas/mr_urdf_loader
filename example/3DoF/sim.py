@@ -21,13 +21,7 @@ def pos_orn_to_T(pos, orn):
 urdf_name = "3DoF.urdf"
 
 ## Modern Robotics setup
-MR = loadURDF(urdf_name)
-M = MR["M"]
-Slist = MR["Slist"]
-Mlist = MR["Mlist"]
-Glist = MR["Glist"]
-Blist = MR["Blist"]
-actuated_joints_num = MR["actuated_joints_num"]
+M, Slist, Blist, Mlist, Glist, actuated_joints_num = loadURDF(urdf_name)
 ## pybullet setup
 p.connect(p.GUI)
 p.setGravity(0, 0, -9.8)

@@ -2,13 +2,7 @@ from mr_urdf_loader import loadURDF
 from modern_robotics import *
 
 urdf_name = "3DoF.urdf"
-MR = loadURDF(urdf_name)
-M = MR["M"]
-Slist = MR["Slist"]
-Mlist = MR["Mlist"]
-Glist = MR["Glist"]
-Blist = MR["Blist"]
-actuated_joints_num = MR["actuated_joints_num"]
+M, Slist, Blist, Mlist, Glist, actuated_joints_num = loadURDF(urdf_name)
 
 thetalist = np.array([0, 0, np.pi / 2.0])
 dthetalist = np.array([0, 0, 0.1])

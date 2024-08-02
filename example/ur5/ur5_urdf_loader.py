@@ -5,14 +5,7 @@ from mr_urdf_loader import loadURDF
 from modern_robotics import *
 
 urdf_name = "ur5/ur5.urdf"
-MR = loadURDF(urdf_name)
-M = np.array(MR["M"])
-Slist = np.array(MR["Slist"])
-Mlist = np.array(MR["Mlist"])
-print(Mlist.shape)
-Glist = np.array(MR["Glist"])
-Blist = np.array(MR["Blist"])
-actuated_joints_num = MR["actuated_joints_num"]
+M, Slist, Blist, Mlist, Glist, actuated_joints_num = loadURDF(urdf_name)
 
 thetalist = np.array(
     [np.pi / 3.0, np.pi / 3.0, np.pi / 3.0, np.pi / 3.0, np.pi / 3.0, np.pi / 3.0]

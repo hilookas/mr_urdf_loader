@@ -62,11 +62,4 @@ def loadURDF(urdf_name):
     Mlist.append(mr.TransInv(last_CoM_M) @ M)
     Mlist = np.array(Mlist)
     
-    return {
-        "M": M,
-        "Slist": Slist,
-        "Blist": Blist,
-        "Mlist": Mlist,
-        "Glist": Glist,
-        "actuated_joints_num": len(robot.actuated_joints),
-    }
+    return M, Slist, Blist, Mlist, Glist, len(robot.actuated_joints)
