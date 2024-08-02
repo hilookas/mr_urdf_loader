@@ -26,15 +26,20 @@ def AnalyticJacobianBody(M, Blist, thetalist):
     return Ja
 
 
-def loadURDF(urdf_name):
+def loadURDF(urdf_name, eef_link_name=None, actuated_joint_names=None):
     robot = URDF.load(urdf_name)
     lfk = robot.link_fk()
-        
+
+    if actuated_joint_names is not None:
+        actuated_joints = [robot.joint_map[name] for name in actuated_joint_names]
+    else:
+        actuated_joints = robot.actuated_joints
+
     Slist = []
     Glist = []
     Mlist = []
     last_CoM_M = np.eye(4)
-    for joint in robot.actuated_joints:
+    for joint in actuated_joints:
         child_link = robot.link_map[joint.child]
 
         child_M = lfk[child_link]
@@ -43,7 +48,7 @@ def loadURDF(urdf_name):
         p = child_M_p
         v = -np.cross(w, p)
         Slist.append([w[0], w[1], w[2], v[0], v[1], v[2]])
-                
+
         G = np.eye(6)
         G[0:3, 0:3] = child_link.inertial.inertia
         G[3:6, 3:6] = child_link.inertial.mass * np.eye(3)
@@ -53,13 +58,16 @@ def loadURDF(urdf_name):
         Mlist.append(mr.TransInv(last_CoM_M) @ CoM_M)
         last_CoM_M = CoM_M
 
-    eef_link = robot.end_links[0]
+    if eef_link_name is not None:
+        eef_link = robot.link_map[eef_link_name]
+    else:
+        eef_link = robot.end_links[0]
     M = lfk[eef_link]
-    
-    Slist = np.transpose(Slist)   
+
+    Slist = np.transpose(Slist)
     Blist = mr.Adjoint(mr.TransInv(M)) @ Slist
     Glist = np.array(Glist)
     Mlist.append(mr.TransInv(last_CoM_M) @ M)
     Mlist = np.array(Mlist)
-    
-    return M, Slist, Blist, Mlist, Glist, len(robot.actuated_joints)
+
+    return M, Slist, Blist, Mlist, Glist, len(actuated_joints)
