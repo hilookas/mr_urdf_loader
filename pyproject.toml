@@ -21,7 +21,7 @@ classifiers = [
 ]
 requires-python = ">=3.7"
 dynamic = ["version"]
-dependencies = ["flit","numpy==1.23.0","networkx==2.4"]
+dependencies = ["flit","numpy==1.23.0","networkx==3.3"]
 [project.optional-dependencies]
 spark = [
     "pyspark>=3.0.0"
