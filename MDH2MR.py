@@ -1,4 +1,3 @@
-import xml.etree.ElementTree as ET
 import numpy as np
 np.set_printoptions(suppress=True)
 
@@ -17,11 +16,11 @@ def TransInv(T):
 
     # Compute the inverse transformation matrix
     invT = np.eye(4)
-    invT[0:3,0:3] = R.T;
-    val = -R.T@p;
-    invT[0,3] = val[0];
-    invT[1,3] = val[1];
-    invT[2,3] = val[2];        
+    invT[0:3,0:3] = R.T
+    val = -R.T@p
+    invT[0,3] = val[0]
+    invT[1,3] = val[1]
+    invT[2,3] = val[2]        
     
 
     return invT
@@ -53,9 +52,9 @@ def Adjoint(T):
 
     # Build the 6x6 adjoint representation [AdT]
     AdT = np.eye(6)
-    AdT[0:3,0:3] = R;
-    AdT[0:3,3:6] = VecToso3(p)@R;
-    AdT[3:6,3:6] = R;    
+    AdT[0:3,0:3] = R
+    AdT[0:3,3:6] = VecToso3(p)@R
+    AdT[3:6,3:6] = R    
 
     return AdT
 def RotX(alpha):
@@ -81,10 +80,10 @@ def RotZ(theta):
                      [np.sin(theta), np.cos(theta), 0, 0],
                      [0, 0, 1, 0],
                      [0, 0, 0, 1]])
-alpha = np.array([0.027 ,90.0671, 0.048, 89.931 ,90.0741 ,-89.9951])*np.pi/180.0;
-a = np.array([0.9083 ,0.0165, 448.1241 ,-0.0472 ,0.0218 ,0.319 ])/1000;
-d = np.array([300.3872, -0.4393, 3.0607, 349.5632 ,182.7953 ,227.0154 ])/1000;
-theta = np.array([0.0196, 89.9967 ,89.9783, 179.9989 ,0.1645 ,-0.0724])*np.pi/180.0;
+alpha = np.array([0.027 ,90.0671, 0.048, 89.931 ,90.0741 ,-89.9951])*np.pi/180.0
+a = np.array([0.9083 ,0.0165, 448.1241 ,-0.0472 ,0.0218 ,0.319 ])/1000
+d = np.array([300.3872, -0.4393, 3.0607, 349.5632 ,182.7953 ,227.0154 ])/1000
+theta = np.array([0.0196, 89.9967 ,89.9783, 179.9989 ,0.1645 ,-0.0724])*np.pi/180.0
 
 
 # Create an instance of MDHParameters
