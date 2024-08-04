@@ -47,7 +47,15 @@ def loadURDF(urdf_name, eef_link_name=None, actuated_joint_names=None):
         w = child_M_R @ np.array(joint.axis).T
         p = child_M_p
         v = -np.cross(w, p)
-        Slist.append([w[0], w[1], w[2], v[0], v[1], v[2]])
+        if joint.joint_type == 'revolute':
+            Slist.append([w[0], w[1], w[2], v[0], v[1], v[2]])
+        elif joint.joint_type == 'prismatic':
+            Slist.append([0, 0, 0, w[0], w[1], w[2]])
+        else:
+            raise Exception("Unsupport type of joint")
+
+        # Dynamic part may be broken
+        # See: https://blog.csdn.net/qq_42243147/article/details/132838572
 
         G = np.eye(6)
         G[0:3, 0:3] = child_link.inertial.inertia
