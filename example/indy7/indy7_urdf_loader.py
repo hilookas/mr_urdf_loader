@@ -5,7 +5,7 @@ from mr_urdf_loader import loadURDF
 from modern_robotics import *
 
 urdf_name = "indy7/indy7.urdf"
-M, Slist, Blist, Mlist, Glist, actuated_joints_num = loadURDF(urdf_name)
+M, Slist, Blist, Mlist, Glist, robot = loadURDF(urdf_name)
 
 thetalist = np.array([0, 0, np.pi / 2.0])
 dthetalist = np.array([0, 0, 0.1])

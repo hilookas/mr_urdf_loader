@@ -21,7 +21,7 @@ def pos_orn_to_T(pos, orn):
 urdf_name = "ur5/ur5.urdf"
 
 ## Modern Robotics setup
-M, Slist, Blist, Mlist, Glist, actuated_joints_num = loadURDF(urdf_name)
+M, Slist, Blist, Mlist, Glist, robot = loadURDF(urdf_name)
 ## pybullet setup
 p.connect(p.GUI)
 p.setGravity(0, 0, -9.8)
@@ -93,7 +93,7 @@ while p.isConnected():
     print(mr_ID)
 
     # set torques
-    for i in range(0, actuated_joints_num):
+    for i in range(len(robot.actuated_joints)):
         p.setJointMotorControl2(robotID, i + 1, p.TORQUE_CONTROL, force=pb_ID[i])
         # p.setJointMotorControl2(robotID, i+1, p.TORQUE_CONTROL,force=pb_ID[i])
 

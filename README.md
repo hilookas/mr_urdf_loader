@@ -25,7 +25,7 @@ To import the package, we recommend using
 ```python
 from mr_urdf_loader import loadURDF
 urdf_name = "./test.urdf"
-M, Slist, Blist, Mlist, Glist, actuated_joints_num = loadURDF(urdf_name)
+M, Slist, Blist, Mlist, Glist, robot = loadURDF(urdf_name)
 ```
 
 ## Examples

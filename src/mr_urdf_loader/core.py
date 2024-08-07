@@ -78,4 +78,4 @@ def loadURDF(urdf_name, eef_link_name=None, actuated_joint_names=None):
     Mlist.append(mr.TransInv(last_CoM_M) @ M)
     Mlist = np.array(Mlist)
 
-    return M, Slist, Blist, Mlist, Glist, len(actuated_joints)
+    return M, Slist, Blist, Mlist, Glist, robot

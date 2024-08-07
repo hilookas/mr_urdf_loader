@@ -8,7 +8,7 @@ np.set_printoptions(precision=4, suppress=True)
 
 robot = URDF.load("/home/rosdev/ros2_ws/src/astra_description/urdf/astra_description_rel.urdf")
 
-M, Slist, Blist, Mlist, Glist, actuated_joints_num = loadURDF(
+M, Slist, Blist, Mlist, Glist, robot = loadURDF(
     "/home/rosdev/ros2_ws/src/astra_description/urdf/astra_description_rel.urdf", 
     eef_link_name="link_ree", 
     actuated_joint_names=['joint_r1', 'joint_r2', 'joint_r3', 'joint_r4', 'joint_r5', 'joint_r6']
