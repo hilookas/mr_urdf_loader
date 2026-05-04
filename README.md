@@ -42,7 +42,9 @@ python3 urdf_loader.py
 ### 2. Pybullet Simulation
 
 ```bash
-pip install pybullet
+export CFLAGS="-fno-define-target-os-macros"
+uv sync --extra pybullet
+
 cd example/3DoF
 python3 sim.py
 ```
