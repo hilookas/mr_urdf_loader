@@ -27,7 +27,7 @@ p.connect(p.GUI)
 p.setGravity(0, 0, -9.8)
 p.setAdditionalSearchPath(pybullet_data.getDataPath())
 
-robotID = p.loadURDF(urdf_name, [0, 0, 0], [0, 0, 0, 1], useFixedBase=1)
+robotID = p.loadURDF(urdf_name, [0, 0, 0], [0, 0, 0, 1], useFixedBase=1, flags=p.URDF_USE_INERTIA_FROM_FILE) # pybullet is not using the URDF-specified inertia values -- it's auto-computing inertia from the collision shapes instead. This is pybullet's default behavior. You need to pass flags=p.URDF_USE_INERTIA_FROM_FILE to make pybullet use the URDF values.
 numJoints = p.getNumJoints(robotID)
 p.resetBasePositionAndOrientation(robotID, [0, 0, 0], [0, 0, 0, 1])
 for i in range(0, numJoints):

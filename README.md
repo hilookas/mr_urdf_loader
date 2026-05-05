@@ -42,6 +42,7 @@ python3 urdf_loader.py
 ### 2. Pybullet Simulation
 
 ```bash
+# https://github.com/bulletphysics/bullet3/issues/4753
 export CFLAGS="-fno-define-target-os-macros"
 uv sync --extra pybullet
 
