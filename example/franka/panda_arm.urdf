@@ -1,0 +1,141 @@
+<?xml version="1.0" ?>
+<!--
+  Simplified Franka Panda arm URDF (7-DoF).
+
+  Compared to the original `franka_panda/panda.urdf` shipped with pybullet_data
+  this file:
+    - drops the gripper (panda_hand, panda_finger_joint*, panda_grasptarget),
+    - keeps the 7 revolute arm joints with the same kinematics and inertias,
+    - adds a fixed "panda_tcp" link at the original grasptarget offset.
+
+  Both modern_robotics and pybullet see exactly the same rigid-body tree,
+  so the two inverse-dynamics implementations return identical torques.
+-->
+<robot name="panda_arm">
+  <link name="panda_link0">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0.05"/>
+      <mass value="2.9"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
+  </link>
+
+  <link name="panda_link1">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 -0.04 -0.05"/>
+      <mass value="2.7"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
+  </link>
+  <joint name="panda_joint1" type="revolute">
+    <origin rpy="0 0 0" xyz="0 0 0.333"/>
+    <parent link="panda_link0"/>
+    <child link="panda_link1"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="87" lower="-2.9671" upper="2.9671" velocity="2.1750"/>
+  </joint>
+
+  <link name="panda_link2">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 -0.04 0.06"/>
+      <mass value="2.73"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
+  </link>
+  <joint name="panda_joint2" type="revolute">
+    <origin rpy="-1.57079632679 0 0" xyz="0 0 0"/>
+    <parent link="panda_link1"/>
+    <child link="panda_link2"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="87" lower="-1.8326" upper="1.8326" velocity="2.1750"/>
+  </joint>
+
+  <link name="panda_link3">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0.01 0.01 -0.05"/>
+      <mass value="2.04"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
+  </link>
+  <joint name="panda_joint3" type="revolute">
+    <origin rpy="1.57079632679 0 0" xyz="0 -0.316 0"/>
+    <parent link="panda_link2"/>
+    <child link="panda_link3"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="87" lower="-2.9671" upper="2.9671" velocity="2.1750"/>
+  </joint>
+
+  <link name="panda_link4">
+    <inertial>
+      <origin rpy="0 0 0" xyz="-0.03 0.03 0.02"/>
+      <mass value="2.08"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
+  </link>
+  <joint name="panda_joint4" type="revolute">
+    <origin rpy="1.57079632679 0 0" xyz="0.0825 0 0"/>
+    <parent link="panda_link3"/>
+    <child link="panda_link4"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="87" lower="-3.1416" upper="0.0" velocity="2.1750"/>
+  </joint>
+
+  <link name="panda_link5">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0.04 -0.12"/>
+      <mass value="3"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
+  </link>
+  <joint name="panda_joint5" type="revolute">
+    <origin rpy="-1.57079632679 0 0" xyz="-0.0825 0.384 0"/>
+    <parent link="panda_link4"/>
+    <child link="panda_link5"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="12" lower="-2.9671" upper="2.9671" velocity="2.6100"/>
+  </joint>
+
+  <link name="panda_link6">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0.04 0 0"/>
+      <mass value="1.3"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
+  </link>
+  <joint name="panda_joint6" type="revolute">
+    <origin rpy="1.57079632679 0 0" xyz="0 0 0"/>
+    <parent link="panda_link5"/>
+    <child link="panda_link6"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="12" lower="-0.0873" upper="3.8223" velocity="2.6100"/>
+  </joint>
+
+  <link name="panda_link7">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0.08"/>
+      <mass value="0.2"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
+  </link>
+  <joint name="panda_joint7" type="revolute">
+    <origin rpy="1.57079632679 0 0" xyz="0.088 0 0"/>
+    <parent link="panda_link6"/>
+    <child link="panda_link7"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="12" lower="-2.9671" upper="2.9671" velocity="2.6100"/>
+  </joint>
+
+  <!-- Virtual TCP frame.  Offset 0.107 (link7 → link8) + 0.105 (link8 → grasptarget). -->
+  <link name="panda_tcp">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="0.0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6"/>
+    </inertial>
+  </link>
+  <joint name="panda_tcp_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 0.212"/>
+    <parent link="panda_link7"/>
+    <child link="panda_tcp"/>
+  </joint>
+</robot>

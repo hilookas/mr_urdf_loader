@@ -26,8 +26,9 @@ def AnalyticJacobianBody(M, Blist, thetalist):
     return Ja
 
 
-def loadURDF(urdf_name, eef_link_name=None, actuated_joint_names=None):
-    robot = URDF.load(urdf_name)
+def loadURDF(urdf_name, eef_link_name=None, actuated_joint_names=None,
+             lazy_load_meshes=False):
+    robot = URDF.load(urdf_name, lazy_load_meshes=lazy_load_meshes)
     lfk = robot.link_fk()
 
     if actuated_joint_names is not None:
