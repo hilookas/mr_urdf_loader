@@ -24,6 +24,7 @@ Examples
 
 import argparse
 import os
+import tempfile
 import time
 
 import numpy as np
@@ -237,11 +238,30 @@ def assemble_tau_pb(e, J, V, Jdot_qdot, K, D, Md_inv,
 
 
 # ===================== Robot bring-up =====================
+def _materialize_urdf():
+    """Rewrite `package://meshes/...` in panda_arm.urdf to absolute paths
+    pointing at pybullet_data's franka_panda meshes, and write the result
+    to a temp URDF that both pybullet and the MR loader can consume.
+    """
+    template_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                 "panda_arm.urdf")
+    with open(template_path) as f:
+        urdf_text = f.read()
+    mesh_dir = os.path.join(pybullet_data.getDataPath(),
+                            "franka_panda/meshes")
+    urdf_text = urdf_text.replace("package://meshes/", mesh_dir + "/")
+
+    runtime_urdf = os.path.join(tempfile.gettempdir(),
+                                "franka_panda_arm_resolved.urdf")
+    with open(runtime_urdf, "w") as f:
+        f.write(urdf_text)
+    return runtime_urdf
+
+
 def setup_robot(args):
-    # Use the stripped 7-DoF arm URDF shipped next to this script so that
-    # modern_robotics and pybullet see the same rigid-body tree (no gripper).
-    urdf_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                             "panda_arm.urdf")
+    # Stripped 7-DoF arm URDF (no gripper) so MR and pybullet see the same
+    # rigid-body tree.  Mesh `package://` paths are resolved at runtime.
+    urdf_path = _materialize_urdf()
 
     arm_joint_names = [f'panda_joint{i}' for i in range(1, 8)]
     tcp_link_name = 'panda_tcp'
@@ -251,6 +271,7 @@ def setup_robot(args):
         urdf_path,
         eef_link_name=tcp_link_name,
         actuated_joint_names=arm_joint_names,
+        lazy_load_meshes=True,  # MR doesn't need the mesh geometry
     )
 
     # ---- PyBullet side ----
